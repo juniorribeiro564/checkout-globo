@@ -1,0 +1,61 @@
+@let viewModel = viewModel$ | async;
+
+<div class="page-container result-page">
+  <app-checkout-steps [currentStep]="paymentStep" />
+
+  @if (viewModel) {
+    @let paymentState = viewModel.paymentState;
+
+    @if (paymentState.status === 'processing' || paymentState.status === 'success') {
+      <app-payment-processing [product]="viewModel.product" [attempt]="paymentState.attempt" />
+    } @else if (paymentState.status === 'error') {
+      <app-result-card
+        status="error"
+        title="Não foi possível concluir o pagamento"
+        description="Não se preocupe: nenhuma cobrança foi realizada e seu pedido continua reservado."
+      >
+        <div class="notice notice--error" role="alert">
+          <app-icon name="circle-alert" />
+          <div>
+            <p class="font-semibold">{{ paymentState.failure.title }}</p>
+            <p>{{ paymentState.failure.message }}</p>
+          </div>
+        </div>
+
+        <app-order-details
+          [product]="viewModel.product"
+          [details]="getDetails(paymentState.attempt)"
+          totalLabel="Total a pagar"
+          [total]="paymentState.attempt.amount"
+        />
+
+        <div class="result-actions">
+          <button type="button" class="primary-button" (click)="retryPayment()">
+            <app-icon name="refresh" />
+            Tentar novamente
+          </button>
+          <button type="button" class="secondary-button" (click)="chooseAnotherPaymentMethod()">
+            Escolher outro meio
+          </button>
+        </div>
+
+        <p class="text-xs text-muted">Você pode pagar com outro cartão ou escolher Pix.</p>
+      </app-result-card>
+
+      <p class="result-footnote">
+        <a href="#" class="help-link">
+          <app-icon name="message-circle" [size]="14" />
+          Ainda precisa de ajuda? Fale com a gente
+        </a>
+      </p>
+    } @else {
+      <app-result-card
+        status="empty"
+        title="Nenhum pagamento para revisar"
+        description="Não encontramos uma tentativa de pagamento recente. Volte ao checkout para escolher como pagar."
+      >
+        <a routerLink="/payment" class="primary-button">Ir para o pagamento</a>
+      </app-result-card>
+    }
+  }
+</div>

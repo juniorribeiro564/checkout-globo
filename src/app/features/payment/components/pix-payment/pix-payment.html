@@ -1,0 +1,46 @@
+<section class="pix-payment" aria-labelledby="pix-payment-title">
+  <div>
+    <h2 id="pix-payment-title" class="text-sm font-semibold">Pague com seu app do banco</h2>
+    <p class="mt-1 text-xs text-muted">
+      Abra a opção Pix e escaneie o QR Code ou use o código abaixo. Depois, conclua o pagamento.
+    </p>
+  </div>
+
+  <figure class="qr-code">
+    <svg
+      viewBox="0 0 21 21"
+      width="148"
+      height="148"
+      shape-rendering="crispEdges"
+      role="img"
+      aria-label="QR Code Pix simulado"
+    >
+      <path [attr.d]="qrCodePath()" fill="currentColor" />
+    </svg>
+    <figcaption class="text-[0.6875rem] text-muted">
+      QR Code simulado · sem valor de pagamento
+    </figcaption>
+  </figure>
+
+  <div class="form-field">
+    <label for="pix-code" class="form-label">Pix copia e cola</label>
+    <div class="input-wrapper">
+      <input id="pix-code" class="form-input text-xs" readonly [value]="pixCode()" />
+    </div>
+  </div>
+
+  <button type="button" class="secondary-button" (click)="copyPixCode()">
+    <app-icon name="copy" />
+    {{ isCodeCopied() ? 'Código copiado' : 'Copiar código Pix' }}
+  </button>
+  <span class="sr-only" aria-live="polite">
+    @if (isCodeCopied()) {
+      Código Pix copiado para a área de transferência.
+    }
+  </span>
+
+  <button type="button" class="primary-button" (click)="completePayment.emit()">
+    <app-icon name="arrow-right" />
+    Concluir pagamento
+  </button>
+</section>

@@ -1,0 +1,86 @@
+@use 'breakpoints' as *;
+
+:host {
+  display: block;
+  max-width: 560px;
+  margin-inline: auto;
+}
+
+.result-card {
+  text-align: center;
+
+  @media (min-width: $breakpoint-tablet) {
+    padding: 32px;
+  }
+}
+
+.result-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-inline: auto;
+  border-radius: 50%;
+  background-color: var(--color-page);
+  color: var(--color-muted);
+
+  &--success {
+    background-color: #dcfce7;
+    color: var(--color-success);
+    box-shadow: 0 0 0 6px #f0fdf4;
+  }
+
+  &--error {
+    background-color: var(--color-danger-soft);
+    color: var(--color-danger);
+    box-shadow: 0 0 0 6px #fff7f7;
+  }
+
+  &--processing {
+    background-color: var(--color-primary-soft);
+    color: var(--color-primary);
+  }
+}
+
+.spinner {
+  width: 26px;
+  height: 26px;
+  border: 3px solid rgb(79 70 229 / 20%);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 2.5s;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.result-title {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.25;
+
+  @media (min-width: $breakpoint-tablet) {
+    font-size: 1.75rem;
+  }
+}
+
+.result-description {
+  margin-top: 8px;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+.result-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}

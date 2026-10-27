@@ -1,0 +1,84 @@
+@let isMobile = isMobile$ | async;
+@let product = product$ | async;
+@let order = order$ | async;
+@let paymentState = paymentState$ | async;
+
+<div class="page-container payment-page">
+  <div class="payment-content">
+    <app-checkout-steps [currentStep]="paymentStep" />
+
+    <header class="page-heading">
+      <h1 class="page-title">Finalize sua assinatura</h1>
+      <p class="mt-1 text-sm text-muted">
+        Falta só um passo para começar com o {{ product?.name }}.
+      </p>
+    </header>
+
+    @if (product && order) {
+      @let total = product.price + product.taxes;
+
+      <div class="payment-grid">
+        <aside class="payment-summary" aria-label="Resumo">
+          <app-order-summary [product]="product" [showBenefits]="!isMobile" />
+
+          @if (!isMobile) {
+            <div class="security-notice">
+              <app-icon name="shield-check" [size]="20" class="text-primary" />
+              <div>
+                <p class="text-xs font-semibold">Seus dados estão protegidos</p>
+                <p class="text-xs text-muted">
+                  Pagamento criptografado. Não armazenamos os dados do seu cartão.
+                </p>
+              </div>
+            </div>
+          }
+        </aside>
+
+        @if (paymentState && paymentState.status !== 'idle') {
+          <app-payment-processing
+            class="payment-processing"
+            [product]="product"
+            [attempt]="paymentState.attempt"
+            [headingLevel]="2"
+          />
+        } @else {
+          <form
+            class="surface-card payment-form"
+            [formGroup]="paymentForm"
+            (ngSubmit)="submitPayment(order, total)"
+            novalidate
+          >
+            <app-payment-method-selector [control]="paymentForm.controls.paymentMethod" />
+
+            @if (selectedPaymentMethod() === 'pix') {
+              <app-pix-payment
+                [pixCode]="pixCode"
+                (completePayment)="submitPayment(order, total)"
+              />
+            } @else {
+              <app-card-form
+                [cardForm]="paymentForm.controls.card"
+                [paymentMethod]="selectedPaymentMethod()"
+              />
+
+              <button type="submit" class="primary-button">
+                <app-icon name="lock" />
+                Pagar {{ total | currency }}
+              </button>
+
+              @if (hasSubmitAttempt() && paymentForm.invalid) {
+                <p class="text-center text-xs text-danger" role="alert">
+                  Corrija os campos destacados para continuar.
+                </p>
+              }
+            }
+
+            <p class="text-center text-[0.6875rem] text-muted">
+              Ao continuar, você concorda com os Termos de uso e a Política de privacidade.
+            </p>
+          </form>
+        }
+      </div>
+    }
+  </div>
+</div>

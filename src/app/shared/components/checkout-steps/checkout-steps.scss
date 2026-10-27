@@ -1,0 +1,61 @@
+@use 'breakpoints' as *;
+
+.steps {
+  display: flex;
+  align-items: center;
+  font-size: 0.6875rem;
+  color: var(--color-muted);
+
+  @media (min-width: $breakpoint-tablet) {
+    font-size: 0.75rem;
+  }
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+
+  &:not(:last-child) {
+    flex: 1;
+
+    &::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      margin-inline: 8px;
+      background-color: var(--color-line);
+
+      @media (min-width: $breakpoint-tablet) {
+        margin-inline: 16px;
+      }
+    }
+  }
+}
+
+.step-marker {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--color-line);
+  font-weight: 600;
+  font-size: 0.6875rem;
+}
+
+.step--completed .step-marker {
+  background-color: transparent;
+  color: var(--color-success);
+}
+
+.step--current {
+  color: var(--color-ink);
+  font-weight: 500;
+
+  .step-marker {
+    background-color: var(--color-primary);
+    color: #ffffff;
+  }
+}

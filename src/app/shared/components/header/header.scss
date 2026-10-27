@@ -1,0 +1,42 @@
+@use 'breakpoints' as *;
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding-inline: 16px;
+
+  @media (min-width: $breakpoint-tablet) {
+    height: 64px;
+    padding-inline: 32px;
+  }
+
+  @media (min-width: $breakpoint-desktop) {
+    padding-inline: 72px;
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 6px;
+
+  &:focus-visible {
+    outline: 3px solid rgb(79 70 229 / 40%);
+    outline-offset: 4px;
+  }
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 700;
+  line-height: 1;
+}

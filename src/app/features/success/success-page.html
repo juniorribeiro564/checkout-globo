@@ -1,0 +1,49 @@
+@let viewModel = viewModel$ | async;
+
+<div class="page-container result-page">
+  <app-checkout-steps [currentStep]="allStepsCompleted" />
+
+  @if (viewModel) {
+    <app-result-card
+      status="success"
+      title="Pagamento confirmado!"
+      [description]="
+        'Tudo certo, ' +
+        viewModel.order.customerFirstName +
+        '. Sua assinatura está ativa e seu espaço já está pronto para você.'
+      "
+    >
+      <span class="status-badge">
+        <app-icon name="check" [size]="12" />
+        Assinatura ativa
+      </span>
+
+      <app-order-details
+        [product]="viewModel.product"
+        [details]="viewModel.details"
+        totalLabel="Total pago"
+        [total]="viewModel.attempt.amount"
+      />
+
+      <p class="text-xs text-muted">
+        Enviamos o recibo para
+        <span class="block font-medium text-ink">{{ viewModel.order.customerEmail }}</span>
+      </p>
+
+      <div class="result-actions">
+        <a href="#" class="primary-button">
+          <app-icon name="arrow-right" />
+          Acessar meu espaço
+        </a>
+        <button type="button" class="secondary-button" (click)="printReceipt()">
+          <app-icon name="file-text" />
+          Ver recibo
+        </button>
+      </div>
+    </app-result-card>
+
+    <p class="result-footnote">
+      Sua próxima renovação será em {{ viewModel.nextRenewalDate | date: 'dd/MM/yyyy' }}.
+    </p>
+  }
+</div>

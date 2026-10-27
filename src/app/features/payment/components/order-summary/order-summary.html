@@ -1,0 +1,33 @@
+<section class="surface-card" aria-labelledby="order-summary-title">
+  <h2 id="order-summary-title" class="text-[0.9375rem] font-semibold">Resumo do pedido</h2>
+
+  <app-product-item class="mt-4 block" [product]="product()" />
+
+  @if (showBenefits()) {
+    <ul class="benefit-list">
+      @for (benefit of product().benefits; track benefit) {
+        <li class="flex items-center gap-2">
+          <app-icon name="check" [size]="14" class="text-primary" />
+          {{ benefit }}
+        </li>
+      }
+    </ul>
+  }
+
+  <dl class="summary-values">
+    <div class="summary-row">
+      <dt>Subtotal</dt>
+      <dd class="font-medium text-ink">{{ product().price | currency }}</dd>
+    </div>
+    <div class="summary-row">
+      <dt>Taxas</dt>
+      <dd class="font-medium text-ink">{{ product().taxes | currency }}</dd>
+    </div>
+    <div class="summary-row summary-total">
+      <dt>Total hoje</dt>
+      <dd>{{ total() | currency }}</dd>
+    </div>
+  </dl>
+
+  <p class="mt-4 text-xs text-muted">{{ product().renewalNote }}</p>
+</section>

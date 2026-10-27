@@ -1,0 +1,25 @@
+.product-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+
+.product-thumbnail {
+  display: grid;
+  flex-shrink: 0;
+  grid-template-columns: repeat(2, 10px);
+  gap: 3px;
+  place-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background-color: var(--color-primary-soft);
+
+  span {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    background-color: var(--color-primary);
+  }
+}

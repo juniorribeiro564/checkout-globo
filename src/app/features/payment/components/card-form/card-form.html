@@ -1,0 +1,112 @@
+<div class="card-form" [formGroup]="cardForm()">
+  <div class="flex items-center justify-between">
+    <h2 class="text-sm font-semibold">{{ title() }}</h2>
+    @if (cardBrand) {
+      <span class="card-brand">{{ cardBrand }}</span>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="card-number" class="form-label">Número do cartão</label>
+    <div class="input-wrapper" [class.input-wrapper--invalid]="isInvalid('cardNumber')">
+      <app-icon name="credit-card" />
+      <input
+        id="card-number"
+        class="form-input"
+        formControlName="cardNumber"
+        inputmode="numeric"
+        autocomplete="cc-number"
+        placeholder="0000 0000 0000 0000"
+        [attr.aria-invalid]="isInvalid('cardNumber')"
+        [attr.aria-describedby]="isInvalid('cardNumber') ? 'card-number-error' : null"
+        (input)="formatCardNumber()"
+      />
+      @if (isInvalid('cardNumber')) {
+        <app-icon name="circle-alert" />
+      }
+    </div>
+    @if (isInvalid('cardNumber')) {
+      <p id="card-number-error" class="field-error">{{ getErrorMessage('cardNumber') }}</p>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="holder-name" class="form-label">Nome no cartão</label>
+    <div class="input-wrapper" [class.input-wrapper--invalid]="isInvalid('holderName')">
+      <input
+        id="holder-name"
+        class="form-input uppercase"
+        formControlName="holderName"
+        autocomplete="cc-name"
+        placeholder="Nome completo"
+        [attr.aria-invalid]="isInvalid('holderName')"
+        [attr.aria-describedby]="isInvalid('holderName') ? 'holder-name-error' : null"
+      />
+      @if (isInvalid('holderName')) {
+        <app-icon name="circle-alert" />
+      }
+    </div>
+    @if (isInvalid('holderName')) {
+      <p id="holder-name-error" class="field-error">{{ getErrorMessage('holderName') }}</p>
+    }
+  </div>
+
+  <div class="form-row">
+    <div class="form-field">
+      <label for="expiration-date" class="form-label">Validade</label>
+      <div class="input-wrapper" [class.input-wrapper--invalid]="isInvalid('expirationDate')">
+        <input
+          id="expiration-date"
+          class="form-input"
+          formControlName="expirationDate"
+          inputmode="numeric"
+          autocomplete="cc-exp"
+          placeholder="MM/AA"
+          [attr.aria-invalid]="isInvalid('expirationDate')"
+          [attr.aria-describedby]="isInvalid('expirationDate') ? 'expiration-date-error' : null"
+          (input)="formatExpirationDate()"
+        />
+        @if (isInvalid('expirationDate')) {
+          <app-icon name="circle-alert" />
+        }
+      </div>
+      @if (isInvalid('expirationDate')) {
+        <p id="expiration-date-error" class="field-error">
+          {{ getErrorMessage('expirationDate') }}
+        </p>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="security-code" class="form-label">CVV</label>
+      <div class="input-wrapper" [class.input-wrapper--invalid]="isInvalid('securityCode')">
+        <app-icon name="circle-help" />
+        <input
+          id="security-code"
+          type="password"
+          class="form-input"
+          formControlName="securityCode"
+          inputmode="numeric"
+          autocomplete="cc-csc"
+          placeholder="•••"
+          [attr.aria-invalid]="isInvalid('securityCode')"
+          [attr.aria-describedby]="isInvalid('securityCode') ? 'security-code-error' : null"
+          (input)="formatSecurityCode()"
+        />
+        @if (isInvalid('securityCode')) {
+          <app-icon name="circle-alert" />
+        }
+      </div>
+      @if (isInvalid('securityCode')) {
+        <p id="security-code-error" class="field-error">{{ getErrorMessage('securityCode') }}</p>
+      }
+    </div>
+  </div>
+
+  @if (cardForm().valid) {
+    <p class="flex items-center gap-1.5 text-xs text-success" role="status">
+      <app-icon name="circle-check" [size]="14" />
+      Dados do cartão preenchidos
+    </p>
+  }
+</div>

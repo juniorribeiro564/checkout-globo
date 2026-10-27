@@ -1,0 +1,62 @@
+@use 'breakpoints' as *;
+
+.payment-methods {
+  min-width: 0;
+}
+
+.payment-method-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+
+  @media (min-width: $breakpoint-tablet) {
+    gap: 12px;
+  }
+}
+
+.payment-method {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 64px;
+  padding: 12px;
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  color: var(--color-muted);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
+
+  &:has(:checked) {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-soft);
+    box-shadow: inset 0 0 0 1px var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  &:has(:focus-visible) {
+    outline: 3px solid rgb(79 70 229 / 40%);
+    outline-offset: 2px;
+  }
+
+  @media (min-width: $breakpoint-tablet) {
+    min-height: 72px;
+  }
+}
+
+.payment-method-radio {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: var(--color-primary);
+}
